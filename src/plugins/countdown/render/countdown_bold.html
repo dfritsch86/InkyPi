@@ -2,6 +2,17 @@
 
 {% block content %}
 <div class="wrapper">
+    <style>
+        .wrapper .item {
+            background-color: {{primary_color}};
+            color: {{secondary_color}};
+        }
+        .wrapper .item:nth-child(odd) {
+            background-color: white;
+            color: blue;
+        }
+    </style>
+    
     {% if duration.days %}
     <div class="item">
         <div class="digit">{{ '%02d' % duration.days }}</div>

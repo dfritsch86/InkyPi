@@ -3,16 +3,16 @@ from plugins.base_plugin.base_plugin import BasePlugin
 import logging
 from datetime import datetime, timedelta
 import inflect
-from openai import OpenAI
+from PIL import ImageColor
 
 logger = logging.getLogger(__name__)
-DEFAULT_TIMEZONE = "US/Eastern"
 
+DEFAULT_TIMEZONE = "US/Eastern"
 STYLES = [
     {
         "name": "Bold",
-        "primary_color": "#db3246",
-        "secondary_color": "#000000",
+        "primary_color": "#2cb5b9",
+        "secondary_color": "#FFFFFF",
         "icon": "styles/bold.png"
     }
 ]
@@ -26,6 +26,9 @@ class Countdown(BasePlugin):
         return template_params
 
     def generate_image(self, settings, device_config):
+        primary_color = ImageColor.getcolor(settings.get('primaryColor') or (255,255,255), "RGB")
+        secondary_color = ImageColor.getcolor(settings.get('secondaryColor') or (0,0,0), "RGB")
+
         target_date_setting = settings.get('targetDate', '')
         if not target_date_setting.strip():
             raise RuntimeError("Target Date is required")
@@ -52,7 +55,9 @@ class Countdown(BasePlugin):
             "content": pretty_time_difference['full_text'],
             "title"  : title,
             "plugin_settings": settings,
-            "duration" : pretty_time_difference
+            "duration" : pretty_time_difference,
+            "primary_color" : primary_color,
+            "secondary_color": secondary_color
         }
 
         dimensions = device_config.get_resolution()
