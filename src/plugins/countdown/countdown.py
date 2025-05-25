@@ -35,7 +35,7 @@ class Countdown(BasePlugin):
         # no timezones are ever configures, as we assume both target_date and current_datetime to be in the same timezone,
         # meaning that their offsets would cancel out anyways
         difference = str(target_date - current_datetime)
-        pretty_time_difference = pretty_time_delta(difference)
+        pretty_time_difference = Countdown.pretty_time_delta(difference)
 
         image_template_params = {
             "content": difference,
