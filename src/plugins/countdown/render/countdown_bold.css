@@ -24,18 +24,10 @@
 .wrapper .item {
     flex: 1 1 0;
     width: 0;
-    background-color: blue;
-    color: white;
     font-size: inherit;
     align-content: center;
 }
 
-
-
-.wrapper .item:nth-child(odd) {
-    background-color: white;
-    color: blue;
-}
 
 .wrapper .item .label{
     text-align: center;
