@@ -2,7 +2,7 @@ from utils.app_utils import resolve_path, get_font
 from plugins.base_plugin.base_plugin import BasePlugin
 import logging
 from datetime import datetime
-import pytz
+import inflect
 
 logger = logging.getLogger(__name__)
 DEFAULT_TIMEZONE = "US/Eastern"
@@ -35,6 +35,7 @@ class Countdown(BasePlugin):
         # no timezones are ever configures, as we assume both target_date and current_datetime to be in the same timezone,
         # meaning that their offsets would cancel out anyways
         difference = str(target_date - current_datetime)
+        pretty_time_difference = pretty_time_delta(difference)
 
         image_template_params = {
             "content": difference,
@@ -50,4 +51,21 @@ class Countdown(BasePlugin):
 
         return image
     
+    @staticmethod
+    def pretty_time_delta(timedelta, lang=inflect.engine()):
+        if not timedelta:
+            return f"0 seconds"
+        seconds = int(timedelta.total_seconds())
+        days, seconds = divmod(seconds, 86400)
+        hours, seconds = divmod(seconds, 3600)
+        minutes, seconds = divmod(seconds, 60)
+        measures = (
+            (days, "day"),
+            (hours, "hour"),
+            (minutes, "minute"),
+            (seconds, "second"),
+        )
+        return lang.join(
+            [f"{count} {lang.plural(noun, count)}" for (count, noun) in measures if count]
+        )
   
