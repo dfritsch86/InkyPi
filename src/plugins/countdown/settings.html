@@ -4,20 +4,33 @@
         <input type="date" id="targetDate" name="targetDate" placeholder="Selected Date (and optionally time)" required class="form-input">
     </div>
     <div class="form-group nowrap">
-        <label for="targetTime" class="form-label">Time:</label>
+        <label for="targetTime" class="form-label">Target Time:</label>
         <input type="time" id="targetTime" name="targetTime" value="00:00" placeholder="Type something..." required class="form-input">
     </div>
-
-
-    
 </div>
 
+<!-- Dropdown Options -->
+<div class="form-group dropdown-container">
+    <div class="form-group">
+        <label for="smallestUnit" class="form-label">Smallest Time Unit to Display:</label>
+        <select id="smallestUnit" name="smallestUnit" class="form-input">
+            <option value="seconds">Seconds</option>
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="days">Days</option>
+        </select>
+    </div>
+</div>
 
 <div class="form-group nowrap">
     <label for="title" class="form-label">Title:</label>
     <input type="text" id="title" name="title" placeholder="Type something..."  class="form-input">
 </div>
 
+<div class="form-group">
+    <input type="checkbox" id="aiGeneratedComparison" name="aiGeneratedComparison" onclick="this.value=this.checked ? 'true' : 'false';">
+    <span>Add ai-generated comparison for calculated time difference</span>
+</div>
 
 <script>
     // populate form values from plugin settings
