@@ -18,11 +18,10 @@ class Countdown(BasePlugin):
         if not target_date_setting.strip():
             raise RuntimeError("Target Date is required")
 
-        target_date = datetime.fromisoformat(target_date_setting)
-
         timezone_name = device_config.get_config("timezone") or DEFAULT_TIMEZONE
         tz = pytz.timezone(timezone_name)
         current_time = datetime.now(tz)
+        target_date = datetime.fromisoformat(target_date_setting).replace(tzinfo=tz)
 
         difference = str(target_date - current_time)
 
