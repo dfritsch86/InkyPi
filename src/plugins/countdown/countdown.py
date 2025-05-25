@@ -14,7 +14,10 @@ class Countdown(BasePlugin):
         return template_params
 
     def generate_image(self, settings, device_config):
-        target_date_setting = settings.get('targetDate')
+        target_date_setting = settings.get('targetDate', '')
+        if not target_date_setting.strip():
+            raise RuntimeError("Target Date is required")
+
         target_date = datetime.fromisoformat(target_date_setting)
 
         timezone_name = device_config.get_config("timezone") or DEFAULT_TIMEZONE
