@@ -16,6 +16,11 @@ class Countdown(BasePlugin):
 
     def generate_image(self, settings, device_config):
         target_date_setting = settings.get('targetDate', '')
+        logger.info(f"Selected date {target_date_setting}")
+
+        target_time_setting = settings.get('targetTime', '')
+        logger.info(f"Selected date {target_time_setting}")
+
         if not target_date_setting.strip():
             raise RuntimeError("Target Date is required")
 
