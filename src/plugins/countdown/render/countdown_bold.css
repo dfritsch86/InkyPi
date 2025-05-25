@@ -10,9 +10,7 @@
 
 .wrapper .item .label{
     text-align: center;
-    font-size: 60%;
     font-weight: bold;
-    color: grey;
     padding: 0;
     margin: 0;
     margin-top: -8px;
@@ -20,7 +18,7 @@
 }
 
 .wrapper .item .digit{
-    font-size: min(10cqh, 8cqi);
+    font-size: min(20cqh, 20cqi);
     text-align: center;
     font-weight: bold;
     padding: 0;
