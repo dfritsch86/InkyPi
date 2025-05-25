@@ -30,18 +30,16 @@
     align-content: center;
 }
 
-
-
 .wrapper .item:nth-child(odd) {
     background-color: white;
-    color: blue;
+    color: {{primary_color}};
 }
 
 .wrapper .item .label{
     text-align: center;
     font-weight: bold;
     padding: 0;
-    font-size: max(5cqw, 12px);
+    font-size: max(5%, 12px);
     margin: -8px 0 8px 0;
     font-family: sans-serif;
 
