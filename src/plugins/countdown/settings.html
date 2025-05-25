@@ -1,0 +1,17 @@
+<div class="form-group">
+    <label for="targetDate" class="form-label">Target Date:</label>
+    <input type="text" id="targetDate" name="textPrompt" placeholder="In ISO8601 format, i.e. YYYY-MM-DDTHH:mm:ss" required class="form-input">
+</div>
+
+
+
+
+<script>
+    // populate form values from plugin settings
+    document.addEventListener('DOMContentLoaded', () => {        
+        if (loadPluginSettings) {
+            // Populate text inputs
+            document.getElementById('targetDate').value = pluginSettings.date || '';
+        }
+    });
+</script>
