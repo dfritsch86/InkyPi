@@ -1,0 +1,28 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    background-color: green;
+}
+
+.wrapper .item {
+    flex-grow: 1;
+}
+
+.wrapper .item .label{
+    text-align: center;
+    font-size: 60%;
+    font-weight: bold;
+    color: grey;
+    padding: 0;
+    margin: 0;
+    margin-top: -8px;
+
+}
+
+.wrapper .item .digit{
+    font-size: min(10cqh, 8cqi);
+    text-align: center;
+    font-weight: bold;
+    padding: 0;
+}

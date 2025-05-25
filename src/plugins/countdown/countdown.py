@@ -41,14 +41,21 @@ class Countdown(BasePlugin):
         image_template_params = {
             "content": pretty_time_difference,
             "title"  : title,
-            "plugin_settings": settings
+            "plugin_settings": settings,
+            "duration" : {
+                "days": "13",
+                "hours": "21",
+                "minutes" : "02",
+                "seconds" : "12"
+            }
         }
 
         dimensions = device_config.get_resolution()
         if device_config.get_config("orientation") == "vertical":
             dimensions = dimensions[::-1]
         
-        image = self.render_image(dimensions, "countdown_text.html", "countdown_text.css", image_template_params)
+        #image = self.render_image(dimensions, "countdown_text.html", "countdown_text.css", image_template_params)
+        image = self.render_image(dimensions, "countdown_bold.html", "countdown_bold.css", image_template_params)
 
         return image
     
