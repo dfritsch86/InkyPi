@@ -16,20 +16,25 @@ class Countdown(BasePlugin):
 
     def generate_image(self, settings, device_config):
         target_date_setting = settings.get('targetDate', '')
+        if not target_date_setting.strip():
+            raise RuntimeError("Target Date is required")
         logger.info(f"Selected date {target_date_setting}")
 
         target_time_setting = settings.get('targetTime', '')
+        if not target_time_setting.strip():
+            raise RuntimeError("Target Date is required")
         logger.info(f"Selected date {target_time_setting}")
 
-        if not target_date_setting.strip():
-            raise RuntimeError("Target Date is required")
+
 
         timezone_name = device_config.get_config("timezone") or DEFAULT_TIMEZONE
         tz = pytz.timezone(timezone_name)
-        current_time = datetime.now(tz)
-        target_date = datetime.fromisoformat(target_date_setting).replace(tzinfo=tz)
+        current_datetime = datetime.now(tz)
 
-        difference = str(target_date - current_time)
+        hour, minute = target_time_setting.split(':')
+        target_date = datetime.fromisoformat(target_date_setting).replace(hour=hour, minute=minute).replace(tzinfo=tz)
+
+        difference = str(target_date - current_datetime)
 
         image_template_params = {
             "content": difference,
