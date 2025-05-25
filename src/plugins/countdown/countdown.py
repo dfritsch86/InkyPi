@@ -1,7 +1,7 @@
 from utils.app_utils import resolve_path, get_font
 from plugins.base_plugin.base_plugin import BasePlugin
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import inflect
 from openai import OpenAI
 
@@ -36,18 +36,13 @@ class Countdown(BasePlugin):
         # no timezones are ever configures, as we assume both target_date and current_datetime to be in the same timezone,
         # meaning that their offsets would cancel out anyways
         difference = target_date - current_datetime
-        pretty_time_difference = Countdown.pretty_time_delta(difference, smallest_unit)
+        pretty_time_difference = Countdown.time_delta_in_units(difference, smallest_unit)
 
         image_template_params = {
-            "content": pretty_time_difference,
+            "content": pretty_time_difference['full_text'],
             "title"  : title,
             "plugin_settings": settings,
-            "duration" : {
-                "days": "13",
-                "hours": "21",
-                "minutes" : "02",
-                "seconds" : "12"
-            }
+            "duration" : pretty_time_difference
         }
 
         dimensions = device_config.get_resolution()
@@ -76,3 +71,22 @@ class Countdown(BasePlugin):
         return lang.join(
             [f"{count} {lang.plural(noun, count)}" for (count, noun) in measures if count]
         )
+    
+    @staticmethod
+    def time_delta_in_units(timedelta, smallest_unit, lang=inflect.engine()):
+        if not timedelta:
+            timedelta = timedelta()
+        seconds = int(timedelta.total_seconds())
+        days, seconds = divmod(seconds, 86400)
+        hours, seconds = divmod(seconds, 3600)
+        minutes, seconds = divmod(seconds, 60)
+        units = {
+                "days": days,
+                "hours": hours if smallest_unit <= 1 * 60 * 60  else False,
+                "minutes" : minutes if smallest_unit <= 1 * 60 else False,
+                "seconds" : seconds if smallest_unit <= 1 else False
+            }
+        units["full_text"] = lang.join(
+            [f"{count} {lang.plural(noun, count)}" for (count, noun) in units if count]
+        )
+        return units
