@@ -31,7 +31,7 @@ class Countdown(BasePlugin):
         tz = pytz.timezone(timezone_name)
         current_datetime = datetime.now(tz)
 
-        hour, minute = target_time_setting.split(':')
+        hour, minute = [int(x) for x in target_time_setting.split(':')]
         target_date = datetime.fromisoformat(target_date_setting).replace(hour=hour, minute=minute).replace(tzinfo=tz)
 
         difference = str(target_date - current_datetime)
