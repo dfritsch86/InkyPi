@@ -79,14 +79,37 @@ img {
 .wrapper {
     display: flex;
     width: 100%;
+    height: 100%;
     background-color: green;
 }
 
+.wrapper:not(:has(*)) { /* 0 elements */
+  font-size: 20cqw
+}
+.wrapper:has(> :last-child:nth-child(1)) { /* 1 element */
+  font-size: 90cqw
+}
+.wrapper:has(> :last-child:nth-child(2)) { /* 2 elements */
+  font-size: 45cqw
+}
+.wrapper:has(> :last-child:nth-child(3)) { /* 3 elements */
+  font-size: 30cqw
+}
+
+.wrapper:has(> :last-child:nth-child(4)) { /* 4 elements */
+  font-size: 22cqw
+}
+
 .wrapper .item {
+    font-family: "Jost";
+    container-type: size;
+
     flex: 1 1 0;
     width: 0;
     background-color: blue;
+    font-size: inherit;
     color: white;
+    align-content: center;
 }
 
 .wrapper .item:nth-child(odd) {
@@ -98,6 +121,7 @@ img {
     text-align: center;
     font-weight: bold;
     padding: 0;
+    font-size: max(5%, 12px);
     margin: -8px 0 8px 0;
     font-family: sans-serif;
 
@@ -108,16 +132,17 @@ img {
     text-align: center;
     font-weight: bold;
     padding: 0;
-    font-size: 20cqw;
+    font-size: inherit;
 }
+
+
     </style>
     </head>
-    <body 
-        
-        <div class="container">
+    <body> 
+    
             <div class="wrapper">
                 <div class="item">
-                    <div class="digit">1</div>
+                    <div class="digit">01</div>
                     <div class="label">DAYS</div>
                 </div>
                 <div class="item">
@@ -128,11 +153,6 @@ img {
                     <div class="digit">32</div>
                     <div class="label">MINUTES</div>
                 </div>
-                <div class="item">
-                    <div class="digit">03</div>
-                    <div class="label">SECONDS</div>
-                </div>
             </div>
-        </div>
     </body>
 </html>
