@@ -6,17 +6,23 @@
         <div class="digit">{{ duration.days }}</div>
         <div class="label">DAYS</div>
     </div>
+    {% if duration.hours %}
     <div class="item">
         <div class="digit">{{ duration.hours }}</div>
         <div class="label">HOURS</div>
     </div>
+    {% endif %}
+    {% if duration.minutes %}
     <div class="item">
         <div class="digit">{{ duration.minutes }}</div>
         <div class="label">MINUTES</div>
     </div>
+    {% endif %}
+    {% if duration.seconds %}
     <div class="item">
         <div class="digit">{{ duration.seconds }}</div>
         <div class="label">SECONDS</div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
