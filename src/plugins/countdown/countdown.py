@@ -12,11 +12,6 @@ DEFAULT_TIMEZONE = "US/Eastern"
 class Countdown(BasePlugin):
     def generate_settings_template(self):
         template_params = super().generate_settings_template()
-        template_params['api_key'] = {
-            "required": True,
-            "service": "OpenAI",
-            "expected_key": "OPEN_AI_SECRET"
-        }
         template_params['style_settings'] = True
         return template_params
 
@@ -32,7 +27,7 @@ class Countdown(BasePlugin):
         logger.info(f"Selected date {target_time_setting}")
 
         title = settings.get("title")
-        smallest_unit = settings.get("smallestUnit")
+        smallest_unit = int(settings.get("smallestUnit"))
 
         current_datetime = datetime.now()
         hour, minute = [int(x) for x in target_time_setting.split(':')]
