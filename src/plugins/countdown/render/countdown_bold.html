@@ -2,10 +2,12 @@
 
 {% block content %}
 <div class="wrapper">
+    {% if duration.days %}
     <div class="item">
         <div class="digit">{{ duration.days }}</div>
         <div class="label">DAYS</div>
     </div>
+    {% endif %}
     {% if duration.hours %}
     <div class="item">
         <div class="digit">{{ duration.hours }}</div>
