@@ -86,5 +86,5 @@ class Countdown(BasePlugin):
                 "minutes" : minutes if smallest_unit <= 1 * 60 else False,
                 "seconds" : seconds if smallest_unit <= 1 else False
             }
-        units["full_text"] = lang.join([f"{count} {lang.plural(noun, count)}" for (count, noun) in units.items() if count])
+        units["full_text"] = lang.join([f"{count} {lang.plural(lang.singular_noun(noun), count)}" for (noun, count) in units.items() if count])
         return units
