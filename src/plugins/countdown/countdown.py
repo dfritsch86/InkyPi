@@ -38,7 +38,7 @@ class Countdown(BasePlugin):
         pretty_time_difference = Countdown.pretty_time_delta(difference)
 
         image_template_params = {
-            "content": difference,
+            "content": pretty_time_difference,
             "title"  : title,
             "plugin_settings": settings
         }
