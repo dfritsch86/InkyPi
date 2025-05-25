@@ -8,11 +8,21 @@ from openai import OpenAI
 logger = logging.getLogger(__name__)
 DEFAULT_TIMEZONE = "US/Eastern"
 
+STYLES = [
+    {
+        "name": "Bold",
+        "primary_color": "#db3246",
+        "secondary_color": "#000000",
+        "icon": "styles/bold.png"
+    }
+]
+
 
 class Countdown(BasePlugin):
     def generate_settings_template(self):
         template_params = super().generate_settings_template()
         template_params['style_settings'] = True
+        template_params['countdown_styles'] = STYLES
         return template_params
 
     def generate_image(self, settings, device_config):

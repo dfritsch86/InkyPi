@@ -1,4 +1,39 @@
 <div class="form-group">
+    <label for="countdown-style" class="form-label">Clock Face:</label>
+
+    <div id="countdown-style-selection" class="image-grid">
+        {% for style in countdown_styles %}
+        <div
+            class="image-option"
+            data-face-name="{{ style.name }}"
+            data-primary-color="{{ style.primary_color }}"
+            data-secondary-color="{{ style.secondary_color }}"
+            onclick="selectCountDownstyle(this)"
+        >
+            <img
+                src="{{ url_for('plugin.image', plugin_id='countdown', filename=face.icon) }}"
+                alt="{{ style.name }}"
+            />
+        </div>
+        {% endfor %}
+    </div>
+    <input type="hidden" id="selected-countdown-style" name="selectedCountdownStyle" value="{{ countdown_styles[0].name }}" />
+</div>
+
+
+<div class="form-group">
+    <div class="form-group nowrap">
+        <label for="primaryColor" class="form-label">Primary Color:</label>
+        <input type="color" name="primaryColor" value="{{ countdown_styles[0].primary_color }}"/>
+    </div>
+    <div class="form-group nowrap">
+        <label for="secondaryColor" class="form-label">Secondary Color:</label>
+        <input type="color" name="secondaryColor" value="{{ countdown_styles[0].secondary_color }}"/>
+    </div>
+</div>
+
+
+<div class="form-group">
     <div class="form-group nowrap">
         <label for="targetDate" class="form-label">Target Date:</label>
         <input type="date" id="targetDate" name="targetDate" placeholder="Selected Date (and optionally time)" required class="form-input">
@@ -36,4 +71,21 @@
             document.getElementById('targetDate').value = pluginSettings.targetDate || '';
         }
     });
+
+    function selectCountDownstyle(element) {
+        // Remove the selected class from any previously selected option
+        const previousSelection = document.querySelector('.image-option.selected');
+        if (previousSelection) {
+            previousSelection.classList.remove('selected');
+        }
+
+        // Add the selected class to the clicked option
+        element.classList.add('selected');
+
+        // Update the hidden input with the selected clock face name
+        const selectedFaceName = element.dataset.faceName;
+        document.getElementById('selected-countdown-style').value = selectedFaceName;
+        document.querySelector("[name=primaryColor]").value = element.dataset.primaryColor;
+        document.querySelector("[name=secondaryColor]").value = element.dataset.secondaryColor;
+    }
 </script>
