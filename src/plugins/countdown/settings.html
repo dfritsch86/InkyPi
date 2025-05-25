@@ -4,11 +4,18 @@
 </div>
 
 
+<div class="form-group nowrap">
+    <label for="title" class="form-label">Title:</label>
+    <input type="datetime-local" id="title" name="title" placeholder="Type something..." required class="form-input">
+</div>
+
+
 <script>
     // populate form values from plugin settings
     document.addEventListener('DOMContentLoaded', () => {        
         if (loadPluginSettings) {
             // Populate text inputs
+            document.getElementById('title').value = pluginSettings.title || '';
             document.getElementById('targetDate').value = pluginSettings.targetDate || '';
         }
     });
