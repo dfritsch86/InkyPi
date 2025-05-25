@@ -1,6 +1,7 @@
 .wrapper {
     display: flex;
     width: 100%;
+    height: 100%;
 }
 
 .wrapper .item {
@@ -8,6 +9,8 @@
     width: 0;
     background-color: blue;
     color: white;
+
+    align-content: center;
 }
 
 .wrapper .item:nth-child(odd) {
