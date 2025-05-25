@@ -190,6 +190,16 @@ body {
     min-width: 50px;
 }
 
+.form-group input[type="date"] {
+    font-family: inherit;
+    min-width: 150px;
+}
+
+.form-group input[type="time"] {
+    font-family: inherit;
+    min-width: 150px;
+}
+
 .form-group input[type="text"]:focus {
     outline: none;
     border-color: #1abc9c;

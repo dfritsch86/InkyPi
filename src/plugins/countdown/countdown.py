@@ -25,19 +25,20 @@ class Countdown(BasePlugin):
             raise RuntimeError("Target Date is required")
         logger.info(f"Selected date {target_time_setting}")
 
+        title = settings.get("title")
 
 
-        timezone_name = device_config.get_config("timezone") or DEFAULT_TIMEZONE
-        tz = pytz.timezone(timezone_name)
-        current_datetime = datetime.now(tz)
-
+        current_datetime = datetime.now()
         hour, minute = [int(x) for x in target_time_setting.split(':')]
-        target_date = datetime.fromisoformat(target_date_setting).replace(hour=hour, minute=minute).replace(tzinfo=tz)
+        target_date = datetime.fromisoformat(target_date_setting).replace(hour=hour, minute=minute)
 
+        # no timezones are ever configures, as we assume both target_date and current_datetime to be in the same timezone,
+        # meaning that their offsets would cancel out anyways
         difference = str(target_date - current_datetime)
 
         image_template_params = {
             "content": difference,
+            "title"  : title,
             "plugin_settings": settings
         }
 
