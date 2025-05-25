@@ -3,6 +3,7 @@ from plugins.base_plugin.base_plugin import BasePlugin
 import logging
 from datetime import datetime
 import inflect
+from openai import OpenAI
 
 logger = logging.getLogger(__name__)
 DEFAULT_TIMEZONE = "US/Eastern"
@@ -11,6 +12,11 @@ DEFAULT_TIMEZONE = "US/Eastern"
 class Countdown(BasePlugin):
     def generate_settings_template(self):
         template_params = super().generate_settings_template()
+        template_params['api_key'] = {
+            "required": True,
+            "service": "OpenAI",
+            "expected_key": "OPEN_AI_SECRET"
+        }
         template_params['style_settings'] = True
         return template_params
 
@@ -26,7 +32,7 @@ class Countdown(BasePlugin):
         logger.info(f"Selected date {target_time_setting}")
 
         title = settings.get("title")
-
+        smallest_unit = settings.get("smallestUnit")
 
         current_datetime = datetime.now()
         hour, minute = [int(x) for x in target_time_setting.split(':')]
@@ -35,7 +41,7 @@ class Countdown(BasePlugin):
         # no timezones are ever configures, as we assume both target_date and current_datetime to be in the same timezone,
         # meaning that their offsets would cancel out anyways
         difference = target_date - current_datetime
-        pretty_time_difference = Countdown.pretty_time_delta(difference)
+        pretty_time_difference = Countdown.pretty_time_delta(difference, smallest_unit)
 
         image_template_params = {
             "content": pretty_time_difference,
@@ -52,7 +58,7 @@ class Countdown(BasePlugin):
         return image
     
     @staticmethod
-    def pretty_time_delta(timedelta, lang=inflect.engine()):
+    def pretty_time_delta(timedelta, smallest_unit, lang=inflect.engine()):
         if not timedelta:
             return f"0 seconds"
         seconds = int(timedelta.total_seconds())
@@ -61,11 +67,49 @@ class Countdown(BasePlugin):
         minutes, seconds = divmod(seconds, 60)
         measures = (
             (days, "day"),
-            (hours, "hour"),
-            (minutes, "minute"),
-            (seconds, "second"),
+            (hours if smallest_unit <= 1 * 60 * 60  else 0, "hour"),
+            (minutes if smallest_unit <= 1 * 60 else 0, "minute"),
+            (seconds if smallest_unit <= 1 else 0, "second"),
         )
         return lang.join(
             [f"{count} {lang.plural(noun, count)}" for (count, noun) in measures if count]
         )
-  
+
+        logger.info(f"Getting random time duration comparison for {timedifference}")
+
+        system_content = (
+            "You are a highly intelligent text generation assistant. "
+            "Given a specifc time duration (in days, hours, minutes, and/or seconds), "
+            "identify and describe one interesting comparison for an activity or event "
+            "that takes a very similar amount of time to complete. "
+            "Generate concise, relevant, and interesting responses. The response should be 50 words or less. "
+            "IMPORTANT: Do not rephrase, reword, or provide an introduction. Respond directly "
+            "to the request without adding explanations or extra context "
+            "IMPORTANT: Only provide answers with a very similar duration, avoid making comparisons "
+            "that of the form 'event A' is 'x' times the duration of 'event B' "
+            "IMPORTANT: If the response naturally requires a newline for formatting, provide "
+            "the '\n' newline character explicitly for every new line. For regular sentences "
+            "or paragraphs do not provide the new line character."
+            f"For context, today is {datetime.today().strftime('%Y-%m-%d')}"
+        )
+        user_content = "The time duration for which to create a comparison is {timedifference}" 
+
+        # Make the API call
+        response = ai_client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_content
+                },
+                {
+                    "role": "user",
+                    "content": user_content
+                }
+            ],
+            temperature=1
+        )
+
+        prompt = response.choices[0].message.content.strip()
+        logger.info(f"Generated random text prompt: {prompt}")
+        return prompt

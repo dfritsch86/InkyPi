@@ -14,9 +14,9 @@
     <div class="form-group">
         <label for="smallestUnit" class="form-label">Smallest Time Unit to Display:</label>
         <select id="smallestUnit" name="smallestUnit" class="form-input">
-            <option value="seconds">Seconds</option>
-            <option value="minutes">Minutes</option>
-            <option value="hours">Hours</option>
+            <option value=1>Seconds</option>
+            <option value=60>Minutes</option>
+            <option value=3600>Hours</option>
             <option value="days">Days</option>
         </select>
     </div>
@@ -25,11 +25,6 @@
 <div class="form-group nowrap">
     <label for="title" class="form-label">Title:</label>
     <input type="text" id="title" name="title" placeholder="Type something..."  class="form-input">
-</div>
-
-<div class="form-group">
-    <input type="checkbox" id="aiGeneratedComparison" name="aiGeneratedComparison" onclick="this.value=this.checked ? 'true' : 'false';">
-    <span>Add ai-generated comparison for calculated time difference</span>
 </div>
 
 <script>
