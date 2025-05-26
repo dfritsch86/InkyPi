@@ -3,7 +3,6 @@ from plugins.base_plugin.base_plugin import BasePlugin
 import logging
 from datetime import datetime, timedelta
 import inflect
-from PIL import ImageColor
 
 logger = logging.getLogger(__name__)
 
