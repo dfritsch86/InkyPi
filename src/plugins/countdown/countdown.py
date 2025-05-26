@@ -7,7 +7,9 @@ from PIL import ImageColor
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_TIMEZONE = "US/Eastern"
+DEFAULT_PRIMARY_COLOR = "#000000"
+DEFAULT_SECONDARY_COLOR = "#FFFFFF"
+
 STYLES = [
     {
         "name": "Bold",
@@ -26,8 +28,8 @@ class Countdown(BasePlugin):
         return template_params
 
     def generate_image(self, settings, device_config):
-        primary_color = ImageColor.getcolor(settings.get('primaryColor') or (255,255,255), "RGB")
-        secondary_color = ImageColor.getcolor(settings.get('secondaryColor') or (0,0,0), "RGB")
+        primary_color = settings.get('primaryColor') or DEFAULT_PRIMARY_COLOR
+        secondary_color = settings.get('secondaryColor') or DEFAULT_SECONDARY_COLOR
 
         logger.info(f"Primary color {primary_color}")
 
