@@ -30,9 +30,6 @@ class Countdown(BasePlugin):
         primary_color = settings.get('primaryColor') or DEFAULT_PRIMARY_COLOR
         secondary_color = settings.get('secondaryColor') or DEFAULT_SECONDARY_COLOR
 
-        logger.info(f"Primary color {primary_color}")
-        logger.info(f"Primary color from settings {settings.get('primaryColor')}")
-
         target_date_setting = settings.get('targetDate', '')
         if not target_date_setting.strip():
             raise RuntimeError("Target Date is required")

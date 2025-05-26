@@ -36,9 +36,6 @@
     font-size: max(5%, 12px);
     margin: -8px 0 8px 0;
     font-family: sans-serif;
-    background-color: {{primary_color}};
-
-
 }
 
 .wrapper .item .digit{

@@ -4,8 +4,14 @@
 
 {% block content %}
 <style>
-    .wrapper .item .digit{
+    .wrapper .item {
         color: {{primary_color}};
+        background-color:{{secondary_color}};
+    }
+
+    .wrapper .item:nth-child(odd) {
+        background-color: {{primary_color}};
+        color:{{secondary_color}};
     }
 
 </style>
