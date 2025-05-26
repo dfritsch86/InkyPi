@@ -29,6 +29,8 @@ class Countdown(BasePlugin):
         primary_color = ImageColor.getcolor(settings.get('primaryColor') or (255,255,255), "RGB")
         secondary_color = ImageColor.getcolor(settings.get('secondaryColor') or (0,0,0), "RGB")
 
+        logger.info(f"Primary color {primary_color}")
+
         target_date_setting = settings.get('targetDate', '')
         if not target_date_setting.strip():
             raise RuntimeError("Target Date is required")
@@ -68,24 +70,6 @@ class Countdown(BasePlugin):
         image = self.render_image(dimensions, "countdown_bold.html", "countdown_bold.css", image_template_params)
 
         return image
-    
-    @staticmethod
-    def pretty_time_delta(timedelta, smallest_unit, lang=inflect.engine()):
-        if not timedelta:
-            return f"0 seconds"
-        seconds = int(timedelta.total_seconds())
-        days, seconds = divmod(seconds, 86400)
-        hours, seconds = divmod(seconds, 3600)
-        minutes, seconds = divmod(seconds, 60)
-        measures = (
-            (days, "day"),
-            (hours if smallest_unit <= 1 * 60 * 60  else 0, "hour"),
-            (minutes if smallest_unit <= 1 * 60 else 0, "minute"),
-            (seconds if smallest_unit <= 1 else 0, "second"),
-        )
-        return lang.join(
-            [f"{count} {lang.plural(noun, count)}" for (count, noun) in measures if count]
-        )
     
     @staticmethod
     def time_delta_in_units(timedelta, smallest_unit, lang=inflect.engine()):
